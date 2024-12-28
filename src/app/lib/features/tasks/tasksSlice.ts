@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// interface Task {
+//     id: string;
+//     title: string;
+// }
+
 interface StatusState {
     urgent: string[],
     unurgent: string[]
@@ -18,7 +23,7 @@ export interface TasksState {
 const initialState: TasksState = {
     tasks: {
         important: {
-            urgent: ['hello', 'hi'],
+            urgent: ['Học bài', 'Làm bài tập'],
             unurgent: []
         },
         unimportant: {

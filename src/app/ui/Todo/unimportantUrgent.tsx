@@ -5,7 +5,7 @@ import { TasksState } from "@/app/lib/features/tasks/tasksSlice";
 export default function UnimportantUrgent({tasks}: TasksState) {
     
     return (
-      <div>
+      <div className="">
         <div>
           {tasks.unimportant.urgent.map((task: string, index: number) => (
             <p

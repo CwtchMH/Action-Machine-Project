@@ -57,12 +57,12 @@ export default function Input() {
   }, [state?.errors]);
 
   return (
-    <div className="pt-4 mb-5 flex items-center" id="div-input">
+    <div className="pt-4 mb-5 flex items-center justify-center xl:h-[15%] xl:gap-5 2xl:gap-3" id="div-input">
       <form
         action={formAction}
-        className="flex items-center flex-col md:flex-row justify-evenly w-[85%]"
+        className="flex justify-evenly items-center xl:w-[80%]"
       >
-        <div className="md:w-[50%] w-full">
+        <div className="xl:w-[40%] 2xl:w-[50%]">
           <input
             id="input-field"
             type="text"
@@ -82,7 +82,7 @@ export default function Input() {
               ))}
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex lg:flex-col flex-row">
           <label htmlFor="priority" className="font-bold text-center">
             Priority:
           </label>
@@ -113,7 +113,7 @@ export default function Input() {
               ))}
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex lg:flex-col flex-row">
           <label htmlFor="status" className="font-bold text-center">
             Status:
           </label>
@@ -144,7 +144,7 @@ export default function Input() {
               ))}
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="col-span-3">
           <button
             type="submit"
             className="flex gap-1 btn-primary w-[40%] md:w-fit md:py-2 md:px-5"

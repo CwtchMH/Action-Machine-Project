@@ -15,9 +15,9 @@ export default function TasksDisplay() {
   return (
     <div
       id="div-tasks"
-      className="mt-5 mb-5 mx-5 bg-[#edf7f6] border-2 border-gray-500"
+      className="mt-5 mx-5 bg-[#edf7f6] h-[75%] border-2 border-gray-500"
     >
-      <div className="grid grid-rows-1 h-[40px]">
+      <div className="grid grid-rows-1 h-[6%]">
         <div className="grid grid-cols-9">
           <div className="border-r-2 border-b-2 border-gray-500 flex justify-center items-center text-rose-300">
             <svg
@@ -48,7 +48,7 @@ export default function TasksDisplay() {
           </div>
         </div>
       </div>
-      <div className="grid grid-rows-1 min-h-[260px]">
+      <div className="grid grid-rows-1 h-[47%]">
         <div className="grid grid-cols-9">
           <div className="border-2 border-gray-500 border-l-0 font-bold text-2xl flex justify-center items-center">
             <p className="-rotate-90">Important</p>
@@ -69,7 +69,7 @@ export default function TasksDisplay() {
           </div>
         </div>
       </div>
-      <div className="grid grid-rows-1 min-h-[260px]">
+      <div className="grid grid-rows-1 h-[47%]">
         <div className="grid grid-cols-9">
           <div className="border-2 border-gray-500 border-l-0 border-b-0 font-bold text-2xl flex justify-center items-center">
             <p className="-rotate-90">Unimportant</p>
