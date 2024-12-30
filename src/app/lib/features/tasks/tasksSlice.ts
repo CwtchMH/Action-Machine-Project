@@ -24,11 +24,11 @@ const initialState: TasksState = {
     tasks: {
         important: {
             urgent: ['Học bài', 'Làm bài tập'],
-            unurgent: []
+            unurgent: ['Đi chơi', 'Đi ăn']
         },
         unimportant: {
-            urgent: [],
-            unurgent: []
+            urgent: ['Đi chơi', 'Đi ăn', 'Ngủ'],
+            unurgent: ['Học bài', 'Làm bài tập', 'Ăn uống']
         }
     }
 }

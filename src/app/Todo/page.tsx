@@ -1,17 +1,44 @@
-import Input from "../ui/Todo/input";
-import TasksDisplay from "../ui/Todo/tasksDisplay";
+'use client'
+import { useAppSelector } from '../lib/hooks'
+import React from 'react'
+import ImportantUrgent from './importantUrgent'
+import ImportantUnurgent from './importantUnurgent'
+import UnimportantUrgent from './unimportantUrgent'
+import UnimportantUnurgent from './unimportantUnurgent'
 
 export default function Page() {
-    return (
-      <div id="main-div-todo" className="bg-white h-screen m-0 p-0 flex">
-        <div
-          className="bg-[#f5f5f5] lg:w-[100%] xl:w-[85%] lg:h-[90%] m-auto shadow-2xl rounded-lg"
-          id="middle-div"
-        >
-          <Input />
-          <hr />
-          <TasksDisplay />
+  const tasks = useAppSelector((state) => state.tasksReducer?.tasks)
+
+  return (
+    <div
+      id="main-div-todo"
+      className="bg-white h-screen m-0 p-0 flex justify-end items-center"
+    >
+      <div className="w-full h-5/6 xl:w-[87%] xl:h-full flex flex-row flex-wrap">
+        <div className="w-full h-[7%] hidden xl:flex">
+          <div className="w-[10%]"></div>
+          <div className="w-[45%] flex justify-center items-center font-extrabold text-xl">
+            Urgent
+          </div>
+          <div className="w-[45%] flex justify-center items-center font-extrabold text-xl">
+            Non Urgent
+          </div>
+        </div>
+        <div className="hidden xl:flex flex-col justify-around h-[93%] w-[10%]">
+          <div className="">
+            <p className="-rotate-90 font-extrabold text-xl">Important</p>
+          </div>
+          <div>
+            <p className="-rotate-90 font-extrabold text-xl">Not Important</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-y-2 xl:gap-y-0 xl:grid-cols-2 w-full xl:w-[90%]">
+          <ImportantUrgent tasks={tasks} />
+          <ImportantUnurgent tasks={tasks} />
+          <UnimportantUrgent tasks={tasks} />
+          <UnimportantUnurgent tasks={tasks} />
         </div>
       </div>
-    );
+    </div>
+  )
 }
