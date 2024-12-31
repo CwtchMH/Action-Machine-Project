@@ -1,10 +1,11 @@
 'use client'
+
 import { useAppSelector } from '../lib/hooks'
 import React from 'react'
-import ImportantUrgent from './importantUrgent'
-import ImportantUnurgent from './importantUnurgent'
-import UnimportantUrgent from './unimportantUrgent'
-import UnimportantUnurgent from './unimportantUnurgent'
+import UnimportantUrgent from '../ui/Todo/unimportantUrgent'
+import UnimportantUnurgent from '../ui/Todo/unimportantUnurgent'
+import ImportantUrgent from '../ui/Todo/importantUrgent'
+import ImportantUnurgent from '../ui/Todo/importantUnurgent'
 
 export default function Page() {
   const tasks = useAppSelector((state) => state.tasksReducer?.tasks)

@@ -1,3 +1,5 @@
+'use client'
+
 import { configureStore } from "@reduxjs/toolkit";
 import TasksSlice from '../lib/features/tasks/tasksSlice'
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // interface Task {
@@ -23,7 +25,7 @@ export interface TasksState {
 const initialState: TasksState = {
     tasks: {
         important: {
-            urgent: ['Học bài', 'Làm bài tập'],
+            urgent: ['Học bài', 'Làm bài tập', 'Ăn uống', 'Tụ tập'],
             unurgent: ['Đi chơi', 'Đi ăn']
         },
         unimportant: {
