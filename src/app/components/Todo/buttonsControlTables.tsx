@@ -84,7 +84,7 @@ export default function ButtonsControlTables({ handleAddTask }: { handleAddTask:
       {/* Màn hình lớn */}
       {/* Màn hình bé */}
       <div className="flex xl:hidden justify-between gap-1">
-        <button className="btn-primary flex gap-1">
+        <button className="btn-primary flex gap-1" onClick={handleAddTask}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

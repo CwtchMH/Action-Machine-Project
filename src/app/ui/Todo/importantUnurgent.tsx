@@ -124,7 +124,7 @@ export default function ImportantUnurgent({ tasks }: TasksState) {
         </div>
       </div>
       {/* Information part */}
-      <InputField color={'yellow-100'} toggleAddTask={toggleAddTask} roundedCorner={"bl"} />
+      <InputField color={'yellow-100'} toggleAddTask={toggleAddTask} handleAddTask={handleAddTask} prior={'important'} statuss={'unurgent'} roundedCorner={"bl"}/>
     </div>
   )
 }

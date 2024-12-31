@@ -1,26 +1,70 @@
-import { useAppDispatch } from "@/app/lib/hooks"
-import { addTask } from "@/app/lib/features/tasks/tasksSlice"
+'use client'
 
-export default function InputField({ color, toggleAddTask, handleAddTask, prior, statuss, roundedCorner } : { color: string, toggleAddTask: boolean, handleAddTask: () => void, prior: string, statuss: string, roundedCorner: string }) {
-    const dispatch = useAppDispatch();
-    const handleAddNewTask = () => {
-        const task = document.querySelector('input[name="task"]') as HTMLInputElement;
-        if (task.value) {
-            dispatch(addTask({ priority: prior === 'important' ? 'important' : 'unimportant', status: statuss === 'urgent' ? 'urgent' : 'unurgent', task: task.value }))
-            task.value = '';
-        }
+import { useAppDispatch } from '@/app/lib/hooks'
+import { addTask } from '@/app/lib/features/tasks/tasksSlice'
+import { toast } from 'react-toastify'
+import { useRef, useEffect } from 'react'
+
+export default function InputField({
+  color,
+  toggleAddTask,
+  handleAddTask,
+  prior,
+  statuss,
+  roundedCorner
+}: {
+  color: string
+  toggleAddTask: boolean
+  handleAddTask: () => void
+  prior: string
+  statuss: string
+  roundedCorner: string
+}) {
+  //focus den input element khi duoc goi
+  const ref = useRef<HTMLInputElement | null>(null)
+  useEffect(() => {
+    if (ref?.current && toggleAddTask) {
+      ref.current.focus()
+      console.log('focus')
     }
-    return (
+  }, [toggleAddTask])
+  // nhin len tren
+  const dispatch = useAppDispatch()
+  // Thong bao
+  const notify = (notification: string) => toast(notification)
+  // Thong bao
+  // ham handle
+  const handleAddNewTask = () => {
+    const task = document.querySelector(
+      `input[name="task-${prior}-${statuss}"]`
+    ) as HTMLInputElement
+    if (task.value) {
+      dispatch(
+        addTask({
+          priority: prior === 'important' ? 'important' : 'unimportant',
+          status: statuss === 'urgent' ? 'urgent' : 'unurgent',
+          task: task.value
+        })
+      )
+      task.value = ''
+      handleAddTask()
+      notify('Task added successfully')
+    } else {
+      notify('Please enter your task!!!')
+    }
+  }
+  return (
     <div
       className={`bg-${color} px-3 py-2 mx-2 rounded-${roundedCorner}-3xl rounded-lg shadow-sm border border-gray-300 flex-row justify-evenly ${
         toggleAddTask ? 'flex mt-auto' : 'hidden'
       }`}
     >
       <input
+        ref={ref}
         placeholder="New task for new life"
         type="text"
         className="w-[85%] rounded-xl pl-3"
-        name="task"
+        name={`task-${prior}-${statuss}`}
       />
       <div className="btn-success" onClick={handleAddNewTask}>
         <svg

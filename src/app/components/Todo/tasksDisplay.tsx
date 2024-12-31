@@ -2,7 +2,7 @@
 
 export default function TasksDisplay({ tasks, toggleInfor, color}: { tasks: string[]; toggleInfor: boolean; color: string }) {
   return (
-    <div className={`${toggleInfor ? 'block' : 'hidden'}`}>
+    <div className={`${toggleInfor ? 'block' : 'hidden'} mb-2`}>
       {tasks &&
         tasks.map((task: string, index: number) => (
           <p

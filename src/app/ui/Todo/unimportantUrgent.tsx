@@ -134,7 +134,7 @@ export default function UnimportantUrgent({ tasks }: TasksState) {
       </div>
       {/* Information part */}
       {/* Khu vực nhập task mới */}
-      <InputField color={'yellow-200'} toggleAddTask={toggleAddTask} roundedCorner={'none'} />
+      <InputField color={'yellow-200'} toggleAddTask={toggleAddTask} handleAddTask={handleAddTask} prior={'unimportant'} statuss={'urgent'} roundedCorner={'none'} />
       {/* Khu vực nhập task mới */}
     </div>
   )
