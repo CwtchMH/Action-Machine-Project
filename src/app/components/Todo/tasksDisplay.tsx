@@ -1,4 +1,3 @@
-'use client'
 
 export default function TasksDisplay({ tasks, toggleInfor, color}: { tasks: string[]; toggleInfor: boolean; color: string }) {
   return (

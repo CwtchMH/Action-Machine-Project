@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { useRef, useEffect } from 'react'
 
 export default function InputField({
+  setToggleInfor,
   color,
   toggleAddTask,
   handleAddTask,
@@ -13,6 +14,7 @@ export default function InputField({
   statuss,
   roundedCorner
 }: {
+  setToggleInfor: (value: boolean) => void
   color: string
   toggleAddTask: boolean
   handleAddTask: () => void
@@ -47,6 +49,7 @@ export default function InputField({
         })
       )
       task.value = ''
+      setToggleInfor(true)
       handleAddTask()
       notify('Task added successfully')
     } else {
@@ -55,7 +58,7 @@ export default function InputField({
   }
   return (
     <div
-      className={`bg-${color} px-3 py-2 mx-2 rounded-${roundedCorner}-3xl rounded-lg shadow-sm border border-gray-300 flex-row justify-evenly ${
+      className={`bg-${color} px-3 py-2 mx-2 ${roundedCorner === 'none' ? '' : (roundedCorner === 'br' ? 'rounded-br-3xl' : 'rounded-bl-3xl')} rounded-lg shadow-sm border border-gray-300 flex-row justify-evenly ${
         toggleAddTask ? 'flex mt-auto' : 'hidden'
       }`}
     >

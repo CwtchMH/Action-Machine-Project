@@ -1,6 +1,31 @@
 'use client'
+import { useAppDispatch } from '@/app/lib/hooks'
+import { deleteTasksFaculty } from '@/app/lib/features/tasks/tasksSlice'
+import { toast } from 'react-toastify'
 
-export default function ButtonsControlTables({ handleAddTask }: { handleAddTask: () => void }) {
+export default function ButtonsControlTables({
+  show2lastbuttons,
+  handleAddTask,
+  prior,
+  status
+}: {
+  show2lastbuttons: boolean
+  handleAddTask: () => void
+  prior: string
+  status: string
+}) {
+  const notify = (notification: string) => toast(notification)
+
+  const dispatch = useAppDispatch()
+  const handleDeleteAllTasks = () => {
+    dispatch(
+      deleteTasksFaculty({
+        priority: prior === 'important' ? 'important' : 'unimportant',
+        status: status === 'urgent' ? 'urgent' : 'unurgent'
+      })
+    )
+    notify(`All tasks of ${prior.toUpperCase()} x ${status.toUpperCase()} deleted successfully`)
+  }
   return (
     <>
       {/* Màn hình lớn */}
@@ -23,13 +48,18 @@ export default function ButtonsControlTables({ handleAddTask }: { handleAddTask:
           Add a new task
         </button>
         <button
-          className="group border-3 border-black btn-danger flex flex-row items-center md:px-3"
+          className={`group border-3 border-black btn-danger flex-row items-center md:px-3 ${show2lastbuttons ? 'flex' : 'hidden'}`}
           onMouseEnter={(e) => {
-            e.currentTarget?.nextSibling?.classList.add('hidden')
+            if(show2lastbuttons) {
+              e.currentTarget?.nextSibling?.classList.add('hidden')
+            }
           }}
           onMouseLeave={(e) => {
-            e.currentTarget?.nextSibling?.classList.remove('hidden')
+            if(show2lastbuttons) {
+              e.currentTarget?.nextSibling?.classList.remove('hidden')
+            }
           }}
+          onClick={handleDeleteAllTasks}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +80,7 @@ export default function ButtonsControlTables({ handleAddTask }: { handleAddTask:
           </span>
         </button>
         <button
-          className="group relative border-3 border-black btn-success flex items-center flex-row md:px-3"
+          className={`group border-3 border-black btn-success items-center flex-row md:px-3 ${show2lastbuttons ? 'flex' : 'hidden'}`}
           onMouseEnter={(e) => {
             e.currentTarget?.previousSibling?.classList.add('hidden')
             e.currentTarget?.parentElement?.classList.add('justify-end')

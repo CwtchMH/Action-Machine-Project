@@ -2,10 +2,11 @@
 
 import { TasksState } from '@/app/lib/features/tasks/tasksSlice'
 import React from 'react'
-import { useState } from 'react';
-import ButtonsControlTables from '@/app/components/Todo/buttonsControlTables';
-import TasksDisplay from '@/app/components/Todo/tasksDisplay';
-import InputField from '@/app/components/Todo/inputField';
+import { useState } from 'react'
+import ButtonsControlTables from '@/app/components/Todo/buttonsControlTables'
+import TasksDisplay from '@/app/components/Todo/tasksDisplay'
+import InputField from '@/app/components/Todo/inputField'
+import { useEffect } from 'react'
 
 export default function UnimportantUrgent({ tasks }: TasksState) {
   const [toggleInfor, setToggleInfor] = useState(true)
@@ -16,19 +17,35 @@ export default function UnimportantUrgent({ tasks }: TasksState) {
   const handleToggleInfor = () => {
     setToggleInfor(!toggleInfor)
   }
+
+  useEffect(() => {
+    if (tasks?.unimportant?.urgent.length === 0) {
+      setToggleInfor(false)
+    }
+  }, [tasks])
   return (
     <div
       className={`lg:rounded-tr-3xl pb-3 bg-yellow-100 rounded-3xl lg:rounded-none flex flex-col ${
-        toggleInfor ? '' : 'justify-center'
+        toggleInfor || tasks?.unimportant?.urgent.length === 0
+          ? ''
+          : 'justify-center'
       }
-      ${toggleAddTask ? 'justify-between' : ''}`}
+      ${
+        tasks?.unimportant?.urgent.length === 0 ? 'justify-stretch gap-3' : ''
+      }`}
     >
       <div
         className={`px-5 pt-3 pb-1 justify-between ${
-          toggleInfor ? 'flex' : 'hidden'
+          toggleInfor || tasks?.unimportant?.urgent.length === 0
+            ? 'flex'
+            : 'hidden'
         }`}
       >
-        <div className="hidden lg:flex border px-2 w-fit border-black rounded-full">
+        <div
+          className={`hidden border px-2 w-fit border-black rounded-full ${
+            tasks?.unimportant?.urgent.length === 0 ? 'hidden' : 'lg:flex'
+          }`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -77,10 +94,21 @@ export default function UnimportantUrgent({ tasks }: TasksState) {
             />
           </svg>
         </div>
-        <ButtonsControlTables handleAddTask={handleAddTask} />
+        <ButtonsControlTables
+          show2lastbuttons={
+            tasks?.unimportant?.urgent.length === 0 ? false : true
+          }
+          handleAddTask={handleAddTask}
+          prior={'unimportant'}
+          status={'urgent'}
+        />
       </div>
       {/* Information part */}
-      <TasksDisplay tasks={tasks?.unimportant?.urgent} toggleInfor={toggleInfor} color={'yellow-200'} />
+      <TasksDisplay
+        tasks={tasks?.unimportant?.urgent}
+        toggleInfor={toggleInfor}
+        color={'yellow-200'}
+      />
       <div
         className={`${toggleInfor ? 'hidden' : 'flex'} mx-5 flex-col gap-y-2`}
       >
@@ -115,7 +143,12 @@ export default function UnimportantUrgent({ tasks }: TasksState) {
             </ul>
           </div>
         </div>
-        <div className="w-fit mx-auto" onClick={handleToggleInfor}>
+        <div
+          className={`w-fit mx-auto ${
+            tasks?.unimportant?.urgent.length === 0 ? 'hidden' : ''
+          }`}
+          onClick={handleToggleInfor}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -134,7 +167,15 @@ export default function UnimportantUrgent({ tasks }: TasksState) {
       </div>
       {/* Information part */}
       {/* Khu vực nhập task mới */}
-      <InputField color={'yellow-200'} toggleAddTask={toggleAddTask} handleAddTask={handleAddTask} prior={'unimportant'} statuss={'urgent'} roundedCorner={'none'} />
+      <InputField
+        setToggleInfor={setToggleInfor}
+        color={'yellow-200'}
+        toggleAddTask={toggleAddTask}
+        handleAddTask={handleAddTask}
+        prior={'unimportant'}
+        statuss={'urgent'}
+        roundedCorner={'none'}
+      />
       {/* Khu vực nhập task mới */}
     </div>
   )

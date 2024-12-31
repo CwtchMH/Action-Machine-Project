@@ -54,10 +54,14 @@ const tasksSlice = createSlice({
                     unurgent: []
                 }
             };
+        },
+        deleteTasksFaculty: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent' }>) => {
+            const { priority, status } = action.payload;
+            state.tasks[priority][status] = [];
         }
     }
 })
 
-export const { addTask, deleteAllTasks } = tasksSlice.actions;
+export const { addTask, deleteAllTasks, deleteTasksFaculty } = tasksSlice.actions;
 
 export default tasksSlice.reducer;
