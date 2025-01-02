@@ -31,7 +31,7 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
           : 'justify-center'
       }
       ${
-        tasks?.important?.unurgent.length === 0 ? 'justify-stretch gap-3' : ''
+        tasks?.unimportant?.unurgent.length === 0 ? 'justify-stretch gap-3' : ''
       }`}
     >
       <div
@@ -105,6 +105,8 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
       </div>
       {/* Information part */}
       <TasksDisplay
+        prior={'unimportant'}
+        status={'unurgent'}
         tasks={tasks?.unimportant?.unurgent}
         toggleInfor={toggleInfor}
         color={'blue-100'}
@@ -145,7 +147,7 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
         </div>
         <div
           className={`w-fit mx-auto ${
-            tasks?.important?.unurgent.length === 0 ? 'hidden' : ''
+            tasks?.unimportant?.unurgent.length === 0 ? 'hidden' : ''
           }`}
           onClick={handleToggleInfor}
         >

@@ -22,6 +22,9 @@ body {
   .btn-primary {
     @apply bg-blue-500 px-2 text-white font-semibold rounded-full cursor-pointer shadow-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-75;
   }
+  .btn-edit {
+    @apply bg-blue-500 px-1 text-white font-semibold rounded-full cursor-pointer shadow-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-75;
+  }
   .btn-danger {
     @apply bg-red-500 text-white font-semibold rounded-full shadow-md focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-75;
   }

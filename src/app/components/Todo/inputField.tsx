@@ -33,7 +33,13 @@ export default function InputField({
   // nhin len tren
   const dispatch = useAppDispatch()
   // Thong bao
-  const notify = (notification: string) => toast(notification)
+  const notify = (notification: string) => {
+    if(notification === 'Task added successfully') {
+      toast.success(notification)
+    } else {
+      toast.error(notification)
+    }
+  }
   // Thong bao
   // ham handle
   const handleAddNewTask = () => {

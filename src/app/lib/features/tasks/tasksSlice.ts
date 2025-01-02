@@ -58,10 +58,18 @@ const tasksSlice = createSlice({
         deleteTasksFaculty: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent' }>) => {
             const { priority, status } = action.payload;
             state.tasks[priority][status] = [];
+        },
+        deleteTask: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', index: number }>) => {
+            const { priority, status, index } = action.payload;
+            state.tasks[priority][status].splice(index, 1);
+        },
+        editTask: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', index: number, task: string }>) => {
+            const { priority, status, index, task } = action.payload;
+            state.tasks[priority][status][index] = task;
         }
     }
 })
 
-export const { addTask, deleteAllTasks, deleteTasksFaculty } = tasksSlice.actions;
+export const { addTask, deleteAllTasks, deleteTasksFaculty, deleteTask, editTask } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

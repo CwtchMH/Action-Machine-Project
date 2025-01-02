@@ -101,9 +101,11 @@ export default function ImportantUrgent({ tasks }: TasksState) {
       </div>
       {/* Information part */}
       <TasksDisplay
+        prior={'important'}
+        status={'urgent'}
         tasks={tasks?.important?.urgent}
         toggleInfor={toggleInfor}
-        color={'rose-100'}
+        color="rose-200"
       />
       <div
         className={`${toggleInfor ? 'hidden' : 'flex'} mx-5 flex-col gap-y-2`}

@@ -105,6 +105,8 @@ export default function UnimportantUrgent({ tasks }: TasksState) {
       </div>
       {/* Information part */}
       <TasksDisplay
+        prior={'unimportant'}
+        status={'urgent'}
         tasks={tasks?.unimportant?.urgent}
         toggleInfor={toggleInfor}
         color={'yellow-200'}

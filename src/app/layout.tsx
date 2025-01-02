@@ -4,6 +4,7 @@ import "./globals.css";
 import ReduxProvider from "./StoreProvider";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-tooltip/dist/react-tooltip.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
