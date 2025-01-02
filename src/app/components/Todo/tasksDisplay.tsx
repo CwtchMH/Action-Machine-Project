@@ -1,7 +1,7 @@
 'use client'
 
 import ButtonControlEach from "./buttonControlEach";
-import { Task } from "@/app/lib/features/tasks/tasksSlice";
+import { Task } from "@/app/lib/definitions";
 
 export default function TasksDisplay({ prior, status, tasks, toggleInfor, color}: { prior: string, status: string, tasks: Task[]; toggleInfor: boolean; color: string }) {
   return (

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { TasksState } from '@/app/lib/features/tasks/tasksSlice'
+import { TasksState } from '@/app/lib/definitions'
 import ButtonsControlTables from '@/app/components/Todo/buttonsControlTables'
 import TasksDisplay from '@/app/components/Todo/tasksDisplay'
 import InputField from '@/app/components/Todo/inputField'
@@ -10,6 +10,8 @@ import { useEffect } from 'react'
 export default function UnimportantUnurgent({ tasks }: TasksState) {
   const [toggleInfor, setToggleInfor] = useState(true)
   const [toggleAddTask, setToggleAddTask] = useState(false)
+  const taskArray = tasks?.unimportant?.unurgent;
+
   const handleToggleInfor = () => {
     setToggleInfor(!toggleInfor)
   }
@@ -18,7 +20,7 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
   }
 
   useEffect(() => {
-    if (tasks?.unimportant?.unurgent.length === 0) {
+    if (taskArray.length === 0) {
       setToggleInfor(false)
     }
   }, [tasks])
@@ -26,24 +28,24 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
   return (
     <div
       className={`lg:rounded-tl-3xl pb-3 bg-blue-50 rounded-3xl lg:rounded-none flex flex-col ${
-        toggleInfor || tasks?.unimportant?.unurgent.length === 0
+        toggleInfor || taskArray.length === 0
           ? ''
           : 'justify-center'
       }
       ${
-        tasks?.unimportant?.unurgent.length === 0 ? 'justify-stretch gap-3' : ''
+        taskArray.length === 0 ? 'justify-stretch gap-3' : ''
       }`}
     >
       <div
         className={`px-5 pt-3 pb-1 justify-between ${
-          toggleInfor || tasks?.unimportant?.unurgent.length === 0
+          toggleInfor || taskArray.length === 0
             ? 'flex'
             : 'hidden'
         }`}
       >
         <div
           className={`hidden border px-2 w-fit border-black rounded-full ${
-            tasks?.unimportant?.unurgent.length === 0 ? 'hidden' : 'lg:flex'
+            taskArray.length === 0 ? 'hidden' : 'lg:flex'
           }`}
         >
           <svg
@@ -95,8 +97,9 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
           </svg>
         </div>
         <ButtonsControlTables
+          tasks={taskArray}
           show2lastbuttons={
-            tasks?.unimportant?.unurgent.length === 0 ? false : true
+            taskArray.length === 0 ? false : true
           }
           handleAddTask={handleAddTask}
           prior={'unimportant'}
@@ -107,7 +110,7 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
       <TasksDisplay
         prior={'unimportant'}
         status={'unurgent'}
-        tasks={tasks?.unimportant?.unurgent}
+        tasks={taskArray}
         toggleInfor={toggleInfor}
         color={'blue-100'}
       />
@@ -147,7 +150,7 @@ export default function UnimportantUnurgent({ tasks }: TasksState) {
         </div>
         <div
           className={`w-fit mx-auto ${
-            tasks?.unimportant?.unurgent.length === 0 ? 'hidden' : ''
+            taskArray.length === 0 ? 'hidden' : ''
           }`}
           onClick={handleToggleInfor}
         >

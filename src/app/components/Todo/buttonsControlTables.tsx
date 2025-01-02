@@ -2,13 +2,22 @@
 import { useAppDispatch } from '@/app/lib/hooks'
 import { deleteTasksFaculty } from '@/app/lib/features/tasks/tasksSlice'
 import { toast } from 'react-toastify'
+import { Task } from '@/app/lib/definitions'
+import { useMemo } from 'react'
+import { filterDoneStatus, filterUndoneStatus } from '@/app/lib/utils'
+import {
+  toggleAllStatusToFalse,
+  toggleAllStatusToTrue
+} from '@/app/lib/features/tasks/tasksSlice'
 
 export default function ButtonsControlTables({
+  tasks,
   show2lastbuttons,
   handleAddTask,
   prior,
   status
 }: {
+  tasks: Task[]
   show2lastbuttons: boolean
   handleAddTask: () => void
   prior: string
@@ -17,6 +26,7 @@ export default function ButtonsControlTables({
   const notify = (notification: string) => toast(notification)
 
   const dispatch = useAppDispatch()
+
   const handleDeleteAllTasks = () => {
     dispatch(
       deleteTasksFaculty({
@@ -24,8 +34,32 @@ export default function ButtonsControlTables({
         status: status === 'urgent' ? 'urgent' : 'unurgent'
       })
     )
-    notify(`All tasks of ${prior.toUpperCase()} x ${status.toUpperCase()} deleted successfully`)
+    notify(
+      `All tasks of ${prior.toUpperCase()} x ${status.toUpperCase()} deleted successfully`
+    )
   }
+
+  const allDone = useMemo(() => filterDoneStatus(tasks), [tasks])
+  const unDone = useMemo(() => filterUndoneStatus(tasks), [tasks])
+
+  const handleToggleAllStatus = () => {
+    if (allDone) {
+      dispatch(
+        toggleAllStatusToFalse({
+          priority: prior === 'important' ? 'important' : 'unimportant',
+          status: status === 'urgent' ? 'urgent' : 'unurgent'
+        })
+      )
+    } else {
+      dispatch(
+        toggleAllStatusToTrue({
+          priority: prior === 'important' ? 'important' : 'unimportant',
+          status: status === 'urgent' ? 'urgent' : 'unurgent'
+        })
+      )
+    }
+  }
+
   return (
     <>
       {/* Màn hình lớn */}
@@ -48,14 +82,16 @@ export default function ButtonsControlTables({
           Add a new task
         </button>
         <button
-          className={`group border-3 border-black btn-danger flex-row items-center md:px-3 ${show2lastbuttons ? 'flex' : 'hidden'}`}
+          className={`group border-3 border-black btn-danger flex-row items-center md:px-3 ${
+            show2lastbuttons ? 'flex' : 'hidden'
+          }`}
           onMouseEnter={(e) => {
-            if(show2lastbuttons) {
+            if (show2lastbuttons) {
               e.currentTarget?.nextSibling?.classList.add('hidden')
             }
           }}
           onMouseLeave={(e) => {
-            if(show2lastbuttons) {
+            if (show2lastbuttons) {
               e.currentTarget?.nextSibling?.classList.remove('hidden')
             }
           }}
@@ -80,7 +116,11 @@ export default function ButtonsControlTables({
           </span>
         </button>
         <button
-          className={`group border-3 border-black btn-success items-center flex-row md:px-3 ${show2lastbuttons ? 'flex' : 'hidden'}`}
+          className={`group border-3 border-black items-center flex-row md:px-3 ${
+            show2lastbuttons ? 'flex' : 'hidden'
+          }
+          ${allDone ? 'btn-danger' : 'btn-success'}
+          `}
           onMouseEnter={(e) => {
             e.currentTarget?.previousSibling?.classList.add('hidden')
             e.currentTarget?.parentElement?.classList.add('justify-end')
@@ -91,6 +131,7 @@ export default function ButtonsControlTables({
             e.currentTarget?.parentElement?.classList.remove('justify-end')
             e.currentTarget?.parentElement?.classList.add('justify-between')
           }}
+          onClick={handleToggleAllStatus}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +148,7 @@ export default function ButtonsControlTables({
             />
           </svg>
           <span className="hidden group-hover:block transition-opacity duration-300 text-black text-xs">
-            Done all tasks
+            {allDone ? 'Undone all tasks' : 'Done all tasks'}
           </span>
         </button>
       </div>

@@ -1,10 +1,10 @@
 import { Tooltip } from 'react-tooltip'
 import { useState, useRef, useEffect } from 'react'
 import { useAppDispatch } from '@/app/lib/hooks'
-import { deleteTask, editTask } from '@/app/lib/features/tasks/tasksSlice'
+import { deleteTask, editTask, toggleStatus } from '@/app/lib/features/tasks/tasksSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Task } from '@/app/lib/features/tasks/tasksSlice'
+import { Task } from '@/app/lib/definitions'
 
 export default function ButtonControlEach({
   index,
@@ -23,12 +23,11 @@ export default function ButtonControlEach({
     toast.error(notification, { autoClose: 2000 })
   const ref = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch()
-  const [toggleDone, setToggleDone] = useState(false)
   const [toggleEdit, setToggleEdit] = useState(false)
 
   const handleDone = () => {
-    const newToggleState = !toggleDone
-    setToggleDone(newToggleState)
+    const newToggleState = !task.finished;
+    dispatch(toggleStatus({ priority: prior === 'important' ? 'important' : 'unimportant', status: status === 'urgent' ? 'urgent' : 'unurgent', index }))
 
     if (newToggleState) {
       notifySuccess('Task done successfully')
@@ -84,7 +83,7 @@ export default function ButtonControlEach({
         data-tooltip-content={'Done task'}
         onClick={handleDone}
         className={`cursor-pointer ${
-          toggleDone
+          task.finished
             ? 'flex items-center gap-1 bg-green-500 px-2 py-1 rounded-lg'
             : ''
         }`}
@@ -103,7 +102,7 @@ export default function ButtonControlEach({
             d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
           />
         </svg>
-        <span className={`${toggleDone ? '' : 'hidden'}`}>Done</span>
+        <span className={`${task.finished ? '' : 'hidden'}`}>Done</span>
       </div>
       <Tooltip id="done-tooltip" place="top" />
       {toggleEdit && (

@@ -1,28 +1,7 @@
 'use client'
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface Task {
-    id: number;
-    title: string;
-    detail: string;
-    createdAt: string;
-    finished: boolean;
-}
-
-interface StatusState {
-    urgent: Task[],
-    unurgent: Task[]
-}
-
-export interface InitialState {
-    important: StatusState,
-    unimportant: StatusState
-}
-
-export interface TasksState {
-    tasks: InitialState;
-}
+import { TasksState } from "../../definitions";
 
 
 const initialState: TasksState = {
@@ -67,7 +46,8 @@ const tasksSlice = createSlice({
             const oldTask = state.tasks[priority][status].at(-1);
             const now = new Date(Date.now());
             const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
-            state.tasks[priority][status].push({ id: oldTask.id + 1 | 1, title: task, detail: '', createdAt: formattedDate, finished: false});
+            const newId = oldTask ? oldTask.id + 1 : 1;
+            state.tasks[priority][status].push({ id: newId, title: task, detail: '', createdAt: formattedDate, finished: false});
         },
         deleteAllTasks: (state) => {
             state.tasks = {
@@ -92,10 +72,22 @@ const tasksSlice = createSlice({
         editTask: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', index: number, task: string }>) => {
             const { priority, status, index, task } = action.payload;
             state.tasks[priority][status][index].title = task;
+        },
+        toggleStatus: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', index: number }>) => {
+            const { priority, status, index } = action.payload;
+            state.tasks[priority][status][index].finished = !state.tasks[priority][status][index].finished;
+        },
+        toggleAllStatusToTrue: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent' }>) => {
+            const { priority, status } = action.payload;
+            state.tasks[priority][status].forEach(task => task.finished = true);
+        },
+        toggleAllStatusToFalse: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent' }>) => {
+            const { priority, status } = action.payload;
+            state.tasks[priority][status].forEach(task => task.finished = false);
         }
     }
 })
 
-export const { addTask, deleteAllTasks, deleteTasksFaculty, deleteTask, editTask } = tasksSlice.actions;
+export const { addTask, deleteAllTasks, deleteTasksFaculty, deleteTask, editTask, toggleStatus, toggleAllStatusToFalse, toggleAllStatusToTrue } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

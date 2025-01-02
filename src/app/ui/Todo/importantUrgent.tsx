@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { TasksState } from '@/app/lib/features/tasks/tasksSlice'
+import { TasksState } from '@/app/lib/definitions'
 import ButtonsControlTables from '@/app/components/Todo/buttonsControlTables'
 import TasksDisplay from '@/app/components/Todo/tasksDisplay'
 import InputField from '@/app/components/Todo/inputField'
@@ -9,13 +9,15 @@ import InputField from '@/app/components/Todo/inputField'
 export default function ImportantUrgent({ tasks }: TasksState) {
   const [toggleInfor, setToggleInfor] = React.useState(true)
   const [toggleAddTask, setToggleAddTask] = React.useState(false)
+  const taskArray = tasks?.important?.urgent;
+
   const handleAddTask = () => {
     setToggleAddTask(!toggleAddTask)
   }
   const handleToggleInfor = () => setToggleInfor(!toggleInfor)
 
   useEffect(() => {
-    if (tasks?.important?.urgent.length === 0) {
+    if (taskArray.length === 0) {
       setToggleInfor(false)
     }
   }, [tasks])
@@ -23,23 +25,23 @@ export default function ImportantUrgent({ tasks }: TasksState) {
     <div
       className={`flex flex-col pb-3 min-h-[100%] bg-rose-50 rounded-3xl lg:rounded-none lg:rounded-br-3xl
         ${
-          toggleInfor || tasks?.important?.urgent.length === 0
+          toggleInfor || taskArray.length === 0
             ? ''
             : 'justify-center'
         }
-        ${tasks?.important?.urgent.length === 0 ? 'justify-stretch gap-3' : ''}
+        ${taskArray.length === 0 ? 'justify-stretch gap-3' : ''}
         `}
     >
       <div
         className={`px-5 pt-3 pb-1 justify-between ${
-          toggleInfor || tasks?.important?.urgent.length === 0
+          toggleInfor || taskArray.length === 0
             ? 'flex'
             : 'hidden'
         }`}
       >
         <div
           className={`hidden border px-2 w-fit border-black rounded-full ${
-            tasks?.important?.urgent.length === 0 ? 'hidden' : 'lg:flex'
+            taskArray.length === 0 ? 'hidden' : 'lg:flex'
           }`}
         >
           <svg
@@ -91,8 +93,9 @@ export default function ImportantUrgent({ tasks }: TasksState) {
           </svg>
         </div>
         <ButtonsControlTables
+          tasks={taskArray}
           show2lastbuttons={
-            tasks?.important?.urgent.length === 0 ? false : true
+            taskArray.length === 0 ? false : true
           }
           handleAddTask={handleAddTask}
           prior={'important'}
@@ -103,7 +106,7 @@ export default function ImportantUrgent({ tasks }: TasksState) {
       <TasksDisplay
         prior={'important'}
         status={'urgent'}
-        tasks={tasks?.important?.urgent}
+        tasks={taskArray}
         toggleInfor={toggleInfor}
         color="rose-200"
       />
@@ -143,7 +146,7 @@ export default function ImportantUrgent({ tasks }: TasksState) {
         </div>
         <div
           className={`w-fit mx-auto ${
-            tasks?.important?.urgent.length === 0 ? 'hidden' : ''
+            taskArray.length === 0 ? 'hidden' : ''
           }`}
           onClick={handleToggleInfor}
         >
