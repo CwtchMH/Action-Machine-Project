@@ -4,6 +4,7 @@ import { useAppDispatch } from '@/app/lib/hooks'
 import { deleteTask, editTask } from '@/app/lib/features/tasks/tasksSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Task } from '@/app/lib/features/tasks/tasksSlice'
 
 export default function ButtonControlEach({
   index,
@@ -12,7 +13,7 @@ export default function ButtonControlEach({
   status
 }: {
   index: number
-  task: string
+  task: Task
   prior: string
   status: string
 }) {
@@ -112,7 +113,7 @@ export default function ButtonControlEach({
             type="text"
             className="w-[92%] rounded-xl pl-3"
             name={`task-${prior}-${status}-${index}`}
-            defaultValue={task}
+            defaultValue={task.title}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +134,7 @@ export default function ButtonControlEach({
       )}
       {!toggleEdit && (
         <span>
-          {index + 1}. {task}
+          {index + 1}. {task.title}
         </span>
       )}
       <div>
