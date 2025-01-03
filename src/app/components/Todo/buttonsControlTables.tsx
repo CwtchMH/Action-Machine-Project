@@ -1,10 +1,11 @@
-'use client'
+'use client';
+
 import { useAppDispatch } from '@/app/lib/hooks'
 import { deleteTasksFaculty } from '@/app/lib/features/tasks/tasksSlice'
 import { toast } from 'react-toastify'
 import { Task } from '@/app/lib/definitions'
 import { useMemo } from 'react'
-import { filterDoneStatus, filterUndoneStatus } from '@/app/lib/utils'
+import { filterDoneStatus } from '@/app/lib/utils'
 import {
   toggleAllStatusToFalse,
   toggleAllStatusToTrue
@@ -24,6 +25,8 @@ export default function ButtonsControlTables({
   status: string
 }) {
   const notify = (notification: string) => toast(notification)
+  const notifyError = (notification: string) => toast.error(notification)
+  const notifySuccess = (notification: string) => toast.success(notification)
 
   const dispatch = useAppDispatch()
 
@@ -40,7 +43,6 @@ export default function ButtonsControlTables({
   }
 
   const allDone = useMemo(() => filterDoneStatus(tasks), [tasks])
-  const unDone = useMemo(() => filterUndoneStatus(tasks), [tasks])
 
   const handleToggleAllStatus = () => {
     if (allDone) {
@@ -50,6 +52,10 @@ export default function ButtonsControlTables({
           status: status === 'urgent' ? 'urgent' : 'unurgent'
         })
       )
+
+      notifyError(
+        `All tasks of ${prior.toUpperCase()} x ${status.toUpperCase()} are undone`
+      )
     } else {
       dispatch(
         toggleAllStatusToTrue({
@@ -57,6 +63,8 @@ export default function ButtonsControlTables({
           status: status === 'urgent' ? 'urgent' : 'unurgent'
         })
       )
+
+      notifySuccess(`All tasks of ${prior.toUpperCase()} x ${status.toUpperCase()} are done`)
     }
   }
 

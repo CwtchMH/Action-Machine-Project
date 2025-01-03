@@ -1,10 +1,16 @@
 import { Tooltip } from 'react-tooltip'
 import { useState, useRef, useEffect } from 'react'
 import { useAppDispatch } from '@/app/lib/hooks'
-import { deleteTask, editTask, toggleStatus } from '@/app/lib/features/tasks/tasksSlice'
+import {
+  deleteTask,
+  editTask,
+  toggleStatus
+} from '@/app/lib/features/tasks/tasksSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Task } from '@/app/lib/definitions'
+import { CSS } from '@dnd-kit/utilities'
+import { useSortable } from '@dnd-kit/sortable'
 
 export default function ButtonControlEach({
   index,
@@ -17,17 +23,28 @@ export default function ButtonControlEach({
   prior: string
   status: string
 }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: task.title
+    })
+
   const notifySuccess = (notification: string) =>
     toast.success(notification, { autoClose: 2000 })
   const notifyError = (notification: string) =>
     toast.error(notification, { autoClose: 2000 })
-  const ref = useRef<HTMLInputElement | null>(null);
+  const ref = useRef<HTMLInputElement | null>(null)
   const dispatch = useAppDispatch()
   const [toggleEdit, setToggleEdit] = useState(false)
 
   const handleDone = () => {
-    const newToggleState = !task.finished;
-    dispatch(toggleStatus({ priority: prior === 'important' ? 'important' : 'unimportant', status: status === 'urgent' ? 'urgent' : 'unurgent', index }))
+    const newToggleState = !task.finished
+    dispatch(
+      toggleStatus({
+        priority: prior === 'important' ? 'important' : 'unimportant',
+        status: status === 'urgent' ? 'urgent' : 'unurgent',
+        index
+      })
+    )
 
     if (newToggleState) {
       notifySuccess('Task done successfully')
@@ -77,7 +94,16 @@ export default function ButtonControlEach({
   }
 
   return (
-    <div className="flex justify-between items-center w-full">
+    <div
+      className="flex justify-between items-center w-full"
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition: transition
+      }}
+    >
       <div
         data-tooltip-id="done-tooltip"
         data-tooltip-content={'Done task'}
