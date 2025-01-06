@@ -65,9 +65,9 @@ const tasksSlice = createSlice({
             const { priority, status } = action.payload;
             state.tasks[priority][status] = [];
         },
-        deleteTask: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', index: number }>) => {
-            const { priority, status, index } = action.payload;
-            state.tasks[priority][status].splice(index, 1);
+        deleteTask: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', id: number }>) => {
+            const { priority, status, id } = action.payload;
+            state.tasks[priority][status] = state.tasks[priority][status].filter(task => task.id !== id);
         },
         editTask: (state, action: PayloadAction<{ priority: 'important' | 'unimportant', status: 'urgent' | 'unurgent', index: number, task: string }>) => {
             const { priority, status, index, task } = action.payload;

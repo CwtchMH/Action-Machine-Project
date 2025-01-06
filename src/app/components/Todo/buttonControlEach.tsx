@@ -13,11 +13,15 @@ import { CSS } from '@dnd-kit/utilities'
 import { useSortable } from '@dnd-kit/sortable'
 
 export default function ButtonControlEach({
+  color,
+  id,
   index,
   task,
   prior,
   status
 }: {
+  color: string
+  id: number
   index: number
   task: Task
   prior: string
@@ -25,7 +29,7 @@ export default function ButtonControlEach({
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
-      id: task.title
+      id
     })
 
   const notifySuccess = (notification: string) =>
@@ -64,7 +68,7 @@ export default function ButtonControlEach({
       deleteTask({
         priority: prior === 'important' ? 'important' : 'unimportant',
         status: status === 'urgent' ? 'urgent' : 'unurgent',
-        index
+        id
       })
     )
   }
@@ -75,7 +79,7 @@ export default function ButtonControlEach({
 
   const handleEdittedTask = () => {
     const newTask = document.querySelector(
-      `input[name="task-${prior}-${status}-${index}"]`
+      `input[name="task-${prior}-${status}-${id}"]`
     ) as HTMLInputElement
     if (newTask.value) {
       dispatch(
@@ -95,7 +99,6 @@ export default function ButtonControlEach({
 
   return (
     <div
-      className="flex justify-between items-center w-full"
       ref={setNodeRef}
       {...attributes}
       {...listeners}
@@ -103,6 +106,7 @@ export default function ButtonControlEach({
         transform: CSS.Transform.toString(transform),
         transition: transition
       }}
+      className={`flex justify-between items-center w-full mt-2 bg-${color} cursor-pointer rounded-lg text-sm text-black capitalize px-3 py-2 text-base shadow-sm border border-gray-300 transition-transform duration-300 ease-in-out hover:shadow-md break-all`}
     >
       <div
         data-tooltip-id="done-tooltip"
@@ -137,7 +141,7 @@ export default function ButtonControlEach({
             ref={ref}
             type="text"
             className="w-[92%] rounded-xl pl-3"
-            name={`task-${prior}-${status}-${index}`}
+            name={`task-${prior}-${status}-${id}`}
             defaultValue={task.title}
           />
           <svg
@@ -188,7 +192,10 @@ export default function ButtonControlEach({
         <button
           data-tooltip-id="delete-tooltip"
           data-tooltip-content={'Delete task'}
-          onClick={handleDelete}
+          onClick={(e) => {
+            e.stopPropagation()
+            handleDelete()
+          }}
           className={`${toggleEdit ? 'hidden' : ''}`}
         >
           <svg
